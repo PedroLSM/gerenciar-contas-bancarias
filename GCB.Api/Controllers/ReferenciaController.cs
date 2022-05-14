@@ -20,7 +20,7 @@ namespace GCB.Api.Controllers
             return Ok(response);
         }
 
-        [HttpPost("adicionar")]
+        [HttpPost("Adicionar")]
         public async Task<IActionResult> AdicionarReferencia([FromBody] AdicionarReferenciaCommand request)
         {
             var response = await Mediator.Send(request);
