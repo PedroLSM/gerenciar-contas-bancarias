@@ -1,0 +1,29 @@
+<app-modal>
+    <span id="modal-titulo">
+        Depositar - {{ nomeBanco }}
+    </span>
+
+    <section id="modal-conteudo">
+        <form [formGroup]="form">
+            <mat-form-field appearance="fill">
+                <mat-label>Descrição</mat-label>
+                <input matInput formControlName="descricao">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Valor</mat-label>
+                <input currencyMask matInput formControlName="valor">
+            </mat-form-field>
+        </form>
+    </section>
+
+    <footer id="modal-acoes">
+        <button color="accent" mat-stroked-button mat-dialog-close>
+            Retornar
+        </button>
+
+        <button color="primary" mat-raised-button (click)="depositar()">
+            Adicionar Depósito
+        </button>
+    </footer>
+</app-modal>

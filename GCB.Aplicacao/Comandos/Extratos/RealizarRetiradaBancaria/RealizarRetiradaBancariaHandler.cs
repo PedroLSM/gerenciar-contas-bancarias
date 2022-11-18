@@ -31,7 +31,7 @@ namespace GCB.Aplicacao.Comandos.Extratos.RealizarRetiradaBancaria
 
             await unitOfWork.SaveChanges(cancellationToken);
 
-            return new CommandResult(HttpStatusCode.Created, "Retirada adicionada", new { retiradaBancaria.Id });
+            return new CommandResult(HttpStatusCode.Created, "Retirada realizada", new { extrato.Saldo, extrato.TotalDepositado, extrato.TotalRetirado });
         }
     }
 }

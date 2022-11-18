@@ -1,0 +1,38 @@
+<app-modal>
+    <span id="modal-titulo">
+        Adicionar Conta Bancaria
+    </span>
+
+    <section id="modal-conteudo">
+        <form [formGroup]="form">
+            <mat-form-field appearance="fill">
+                <mat-label>Nome do Banco</mat-label>
+                <input matInput formControlName="nomeBanco">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Tipo de Conta</mat-label>
+                <mat-select formControlName="tipoConta" name="item">
+                    <mat-option *ngFor="let tipo of tipoContas" [value]="tipo.value">
+                        {{tipo.label}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Saldo Atual</mat-label>
+                <input currencyMask matInput formControlName="saldoAtual">
+            </mat-form-field>
+        </form>
+    </section>
+
+    <footer id="modal-acoes">
+        <button color="accent" mat-stroked-button mat-dialog-close>
+            Retornar
+        </button>
+
+        <button color="primary" mat-raised-button (click)="adicionarConta()">
+            Adicionar Conta
+        </button>
+    </footer>
+</app-modal>

@@ -26,11 +26,11 @@ namespace GCB.QG
                 BaseAddress = new Uri("https://localhost:5257/")
             };
 
-            // await Agosto2020.AdicionarExtratoAsync(httpClient);
-            // await Setembro2020.AdicionarExtratoAsync(httpClient);
-            // await Outubro2020.AdicionarExtratoAsync(httpClient);
-            // await Novembro2020.AdicionarExtratoAsync(httpClient);
-            // await Dezembro2020.AdicionarExtratoAsync(httpClient);
+            await Agosto2020.AdicionarExtratoAsync(httpClient);
+            await Setembro2020.AdicionarExtratoAsync(httpClient);
+            await Outubro2020.AdicionarExtratoAsync(httpClient);
+            await Novembro2020.AdicionarExtratoAsync(httpClient);
+            await Dezembro2020.AdicionarExtratoAsync(httpClient);
             await Janeiro2021.AdicionarExtratoAsync(httpClient);
         }
     }

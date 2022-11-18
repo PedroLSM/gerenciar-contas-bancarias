@@ -71,12 +71,12 @@ namespace GCB.Comum.Repositorios
 
         public T GetLast()
         {
-            return dbSet.LastOrDefault() ?? throw new NotFoundException(typeof(T).Name);
+            return GetAll().LastOrDefault() ?? throw new NotFoundException(typeof(T).Name);
         }
 
         public T GetLastOrDefault()
         {
-            return dbSet.LastOrDefault();
+            return GetAll().LastOrDefault();
         }
     }
 }

@@ -1,0 +1,31 @@
+<main [loaderId]="loaderId" [blur]='0' ngxUiLoaderBlurred class="mat-dialog-padding d-dialog">
+  <div mat-dialog-title class="d-flex justify-content-between">
+    <h2 class="w-100 mb-0" id="modal-basic-title">
+      <ng-content select="#modal-titulo">
+      </ng-content>
+    </h2>
+
+    <button mat-button class="close" aria-label="Close" mat-dialog-close [hidden]="true">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <hr class="separator">
+
+  <section class="content-modal h-100">
+    <div mat-dialog-content>
+      <ng-content select="#modal-conteudo">
+      </ng-content>
+    </div>
+  </section>
+
+
+  <div mat-dialog-actions class="mat-dialog-actions">
+    <ng-content select="#modal-acoes">
+    </ng-content>
+    <ng-content select="#modal-acao">
+    </ng-content>
+  </div>
+
+  <app-loader [loaderId]="loaderId"></app-loader>
+</main>

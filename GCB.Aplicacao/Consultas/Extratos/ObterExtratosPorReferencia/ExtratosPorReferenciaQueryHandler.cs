@@ -40,7 +40,7 @@ namespace GCB.Aplicacao.Consultas.Extratos.ObterExtratosPorReferencia
 	                  , TotalDepositado	
 	                  , TotalRetirado
 	                  , Ativa
-                FROM [GCBDb].[dbo].[Extratos]
+                FROM Extratos
 	                JOIN ContasBancarias ON ContasBancarias.Id = Extratos.ContaBancariaId
                 WHERE ReferenciaId = @ReferenciaId;
             ";

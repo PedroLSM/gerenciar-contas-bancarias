@@ -1,0 +1,31 @@
+.mat-dialog-content {
+    height: calc(100% - 20px - 66px) !important;
+}
+
+main {
+    height: 100% !important;
+}
+
+.mat-dialog-title {
+    height: 20px !important;
+}
+
+.mat-dialog-actions {
+    height: 66px !important;
+}
+
+::ng-deep .mat-dialog-actions > #modal-acoes {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr;
+    gap: 10px;
+}
+
+::ng-deep .mat-dialog-actions > #modal-acao {
+    width: 100%;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 0.5fr;
+    gap: 10px;
+}

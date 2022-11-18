@@ -2,6 +2,7 @@
 using GCB.Comum.Factories;
 using GCB.Comum.Filtros;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,8 +13,8 @@ namespace GCB.Comum.Extensoes
     public static class ConfigureServices
     {
         public static void AddDbContext<T>(
-            this IServiceCollection services, 
-            IConfiguration configuration, 
+            this IServiceCollection services,
+            IConfiguration configuration,
             string migrationAssembly,
             string connectionStringName = "ConnectionString"
             )
@@ -32,7 +33,7 @@ namespace GCB.Comum.Extensoes
         public static IMvcBuilder AddControllersWithFilters(this IServiceCollection services)
         {
             return services.AddControllers(
-                options => options.Filters.Add(new ApiExceptionFilter())
+                options => { options.Filters.Add<ApiExceptionFilter>(); }
             );
         }
 
@@ -63,8 +64,8 @@ namespace GCB.Comum.Extensoes
 
         public static IServiceCollection AddDefaultCors(this IServiceCollection services)
         {
-            services.AddCors(option => 
-                option.AddDefaultPolicy(policies => 
+            services.AddCors(option =>
+                option.AddDefaultPolicy(policies =>
                     policies.AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod()

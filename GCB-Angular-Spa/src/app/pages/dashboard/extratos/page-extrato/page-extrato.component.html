@@ -1,0 +1,5 @@
+<btn-extrato></btn-extrato>
+
+<ng-container *ngIf="extrato$ | async as extrato">
+    <app-listar-extrato [extrato]="extrato"></app-listar-extrato>
+</ng-container>

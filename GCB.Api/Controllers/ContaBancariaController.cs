@@ -25,7 +25,7 @@ namespace GCB.Api.Controllers
         }
 
         [HttpPost("Desativar")]
-        public async Task<IActionResult> AtivarContaBancaria([FromBody] DesativarContaBancariaCommand request)
+        public async Task<IActionResult> DesativarContaBancaria([FromBody] DesativarContaBancariaCommand request)
         {
             var response = await Mediator.Send(request);
 

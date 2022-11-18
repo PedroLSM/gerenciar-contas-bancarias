@@ -33,7 +33,7 @@ namespace GCB.Api
                 });
 
             services.AddDefaultCors();
-            
+
             services.AddMediatR(typeof(AdicionarReferenciaCommand).Assembly);
 
             services.AddValidatorsFromAssembly(typeof(AdicionarReferenciaValidator).Assembly);
@@ -61,6 +61,7 @@ namespace GCB.Api
 
             app.UseDefaultCors();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwaggerDocumentation();

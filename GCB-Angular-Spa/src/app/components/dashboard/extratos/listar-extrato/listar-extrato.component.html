@@ -1,0 +1,65 @@
+<div class="mat-elevation-z8" [hidden]="!extratoContas.length">
+    <table mat-table [dataSource]="extratoContas">
+        <ng-container matColumnDef="nomeBanco">
+            <th mat-header-cell *matHeaderCellDef> Nome do Banco </th>
+            <td mat-cell *matCellDef="let element"> {{ element.nomeBanco }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalRetirado">
+            <th mat-header-cell *matHeaderCellDef> Total Retirado </th>
+            <td mat-cell *matCellDef="let element" [ngClass]="{
+          'text-success': element.saldo > 0,
+          'text-danger': element.totalRetirado < 0,
+          'text-warning': element.totalRetirado == 0
+        }">
+                {{ element.totalRetirado | currency }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalDepositado">
+            <th mat-header-cell *matHeaderCellDef> Total Depositado </th>
+            <td mat-cell *matCellDef="let element" [ngClass]="{
+          'text-success': element.saldo > 0,
+          'text-danger': element.totalDepositado < 0,
+          'text-warning': element.totalDepositado == 0
+        }">
+                {{ element.totalDepositado | currency }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="saldo">
+            <th mat-header-cell *matHeaderCellDef> Saldo </th>
+            <td mat-cell *matCellDef="let element" [ngClass]="{
+          'text-success': element.saldo > 0,
+          'text-danger': element.saldo < 0,
+          'text-warning': element.saldo == 0
+        }">
+                {{ element.saldo | currency }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ativa">
+            <th mat-header-cell *matHeaderCellDef> Situação </th>
+            <td mat-cell *matCellDef="let element"> {{ element.ativa ? "Ativa" : "Inativa" }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <button mat-button aria-label="Depositar" matTooltip="Realizar Depósito Bancário"
+                    (click)="openModalDepositar(element)">
+                    <mat-icon class="text-success">add_card</mat-icon>
+                </button>
+                <button mat-button aria-label="Depositar" matTooltip="Realizar Retirada Bancária"
+                    (click)="openModalRetirar(element)">
+                    <mat-icon class="text-danger">credit_card_off</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

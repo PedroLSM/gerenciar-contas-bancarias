@@ -31,7 +31,7 @@ namespace GCB.Aplicacao.Comandos.Extratos.RealizarDepositoBancario
 
             await unitOfWork.SaveChanges(cancellationToken);
 
-            return new CommandResult(HttpStatusCode.Created, "Deposito adicionado", new { depositoBancario.Id });
+            return new CommandResult(HttpStatusCode.Created, "Deposito adicionado", new { extrato.Saldo, extrato.TotalDepositado, extrato.TotalRetirado });
         }
     }
 }

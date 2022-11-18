@@ -1,10 +1,6 @@
 ﻿using GCB.Aplicacao.Comandos.Referencias.AdicionarReferencia;
 using GCB.Aplicacao.Consultas.Referencias.ObterReferenciasAgrupadaPorAno;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GCB.Api.Controllers
