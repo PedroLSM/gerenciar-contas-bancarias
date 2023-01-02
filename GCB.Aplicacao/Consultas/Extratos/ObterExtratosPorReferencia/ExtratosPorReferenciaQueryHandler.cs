@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GCB.Aplicacao.Consultas.Extratos.ObterExtratosPorReferencia
 {
-    public class ExtratosPorReferenciaQueryHandler : IRequestHandler<ExtratosPorReferenciaQuery, IEnumerable<ExtratoPorReferenciaDto>>
+    public class ExtratosPorReferenciaQueryHandler : IRequestHandler<ExtratosPorReferenciaQuery, IEnumerable<ObterHistoricoPorExtratoDto>>
     {
         private readonly ISqlConnectionFactory sqlConnectionFactory;
 
@@ -20,7 +20,7 @@ namespace GCB.Aplicacao.Consultas.Extratos.ObterExtratosPorReferencia
             this.sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        public async Task<IEnumerable<ExtratoPorReferenciaDto>> Handle(ExtratosPorReferenciaQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ObterHistoricoPorExtratoDto>> Handle(ExtratosPorReferenciaQuery request, CancellationToken cancellationToken)
         {
             using var connection = sqlConnectionFactory.GetOpenConnection();
 
@@ -29,7 +29,7 @@ namespace GCB.Aplicacao.Consultas.Extratos.ObterExtratosPorReferencia
             return extratos;
         }
 
-        async Task<IEnumerable<ExtratoPorReferenciaDto>> ObterExtratos(IDbConnection connection, Guid referenciaId)
+        async Task<IEnumerable<ObterHistoricoPorExtratoDto>> ObterExtratos(IDbConnection connection, Guid referenciaId)
         {
             const string sqlReferencia = @"
                 SELECT Extratos.Id as ExtratoId	
@@ -45,7 +45,7 @@ namespace GCB.Aplicacao.Consultas.Extratos.ObterExtratosPorReferencia
                 WHERE ReferenciaId = @ReferenciaId;
             ";
 
-            return await connection.QueryAsync<ExtratoPorReferenciaDto>(sqlReferencia, new { ReferenciaId = referenciaId });
+            return await connection.QueryAsync<ObterHistoricoPorExtratoDto>(sqlReferencia, new { ReferenciaId = referenciaId });
         }
     }
 }

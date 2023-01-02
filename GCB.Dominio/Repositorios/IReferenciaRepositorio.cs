@@ -8,5 +8,6 @@ namespace GCB.Dominio.Repositorios
     public interface IReferenciaRepositorio : IRepository<Referencia>
     {
         Task<bool> ReferenciaExiste(Mes mesReferencia);
+        (Referencia Atual, Referencia Anterior) ObterUltimasReferenciasParaCalculo();
     }
 }

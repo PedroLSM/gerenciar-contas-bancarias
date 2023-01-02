@@ -16,6 +16,10 @@ namespace GCB.Infraestrutura.ConfiguracoesEF
             builder.Property(x => x.ExtratoId)
                 .IsRequired();
 
+            builder.Property(x => x.DataRegistro)
+                .HasDefaultValueSql("getdate()")
+                .IsRequired();
+
             builder.Property(x => x.Descricao)
                 .HasMaxLength(100)
                 .IsRequired();

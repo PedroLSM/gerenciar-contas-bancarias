@@ -18,7 +18,7 @@ namespace GCB.Comum.Comportamentos
             _validators = validators;
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             if (_validators.Any())
             {
@@ -30,8 +30,8 @@ namespace GCB.Comum.Comportamentos
                 if (failures.Count != 0)
                     throw new ValidationException(failures);
             }
+
             return await next();
         }
-
     }
 }

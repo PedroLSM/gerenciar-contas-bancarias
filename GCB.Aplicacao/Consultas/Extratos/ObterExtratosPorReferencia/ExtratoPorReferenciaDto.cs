@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GCB.Aplicacao.Consultas.Extratos.ObterExtratosPorReferencia
 {
-    public class ExtratoPorReferenciaDto
+    public class ObterHistoricoPorExtratoDto
     {
 		public Guid ExtratoId { get; set; }
 		public Guid ContaBancariaId { get; set; }

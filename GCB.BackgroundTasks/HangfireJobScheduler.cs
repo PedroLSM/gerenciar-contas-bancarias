@@ -13,10 +13,21 @@ namespace GCB.BackgroundTasks
         public static void ScheduleRecurringJobs()
         {
             RecurringJob.RemoveIfExists(nameof(AdicionarReferenciaJob));
+            RecurringJob.RemoveIfExists(nameof(CalcularDiferencaSaldoReferenciaJob));
 
-            RecurringJob.AddOrUpdate<AdicionarReferenciaJob>(nameof(AdicionarReferenciaJob),
+            RecurringJob.AddOrUpdate<AdicionarReferenciaJob>(
+                nameof(AdicionarReferenciaJob),
+                job => job.Run(JobCancellationToken.Null), 
+                "*/30 * * * *", 
+                TimeZoneInfo.Local
+            );
+
+            RecurringJob.AddOrUpdate<CalcularDiferencaSaldoReferenciaJob>(
+                nameof(CalcularDiferencaSaldoReferenciaJob),
                 job => job.Run(JobCancellationToken.Null),
-                Cron.Minutely, TimeZoneInfo.Local);
+                "*/15 * * * *",
+                TimeZoneInfo.Local
+            );
         }
     }
 }

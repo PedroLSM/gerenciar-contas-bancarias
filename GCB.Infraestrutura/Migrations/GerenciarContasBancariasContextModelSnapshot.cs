@@ -22,7 +22,6 @@ namespace GCB.Infraestrutura.Migrations
             modelBuilder.Entity("GCB.Dominio.Entidades.ContaBancaria", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Ativa")
@@ -45,8 +44,12 @@ namespace GCB.Infraestrutura.Migrations
             modelBuilder.Entity("GCB.Dominio.Entidades.DepositoBancario", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataRegistro")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -66,7 +69,6 @@ namespace GCB.Infraestrutura.Migrations
             modelBuilder.Entity("GCB.Dominio.Entidades.Extrato", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ContaBancariaId")
@@ -87,7 +89,6 @@ namespace GCB.Infraestrutura.Migrations
             modelBuilder.Entity("GCB.Dominio.Entidades.Referencia", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Ano")
@@ -110,8 +111,12 @@ namespace GCB.Infraestrutura.Migrations
             modelBuilder.Entity("GCB.Dominio.Entidades.RetiradaBancaria", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataRegistro")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<string>("Descricao")
                         .IsRequired()

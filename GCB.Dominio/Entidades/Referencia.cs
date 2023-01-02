@@ -33,12 +33,13 @@ namespace GCB.Dominio.Entidades
 
             Validate(this, new ReferenciaValidator());
 
-            AddDomainEvent(new ReferenciaCriadaDomainEvent(Id, Mes, Ano));
+            AddDomainEvent(new ReferenciaCriadaDomainEvent(Id));
+            AddDomainEvent(new CalcularDiferencaSaldoDomainEvent());
         }
 
         public Referencia(Mes mes, Referencia ultimaReferencia) : this(mes)
         {
-            if (!(ultimaReferencia is null))
+            if (ultimaReferencia is not null)
                 Saldo =  new Real(ultimaReferencia.Saldo.Valor);
         }
 

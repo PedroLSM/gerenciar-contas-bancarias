@@ -44,7 +44,7 @@ namespace GCB.BackgroundTasks.Jobs
 
             try
             {
-                var response = await mediator.Send(new AdicionarReferenciaCommand(mesAtual.ToString()));
+                var response = await mediator.Send(new AdicionarReferenciaCommand(mesAtual));
                 
                 if ((int)response.Status >= 200 && (int)response.Status < 300)
                 {
@@ -70,8 +70,6 @@ namespace GCB.BackgroundTasks.Jobs
             {
                 throw;
             }
-            
-            
         }
     }
 }

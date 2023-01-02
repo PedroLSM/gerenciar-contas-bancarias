@@ -12,6 +12,8 @@ namespace GCB.Dominio.Entidades
         public string Descricao { get; private set; }
         public Real Valor { get; private set; }
 
+        public DateTime DataRegistro { get; private set; }
+
         private DepositoBancario() { }
 
         public DepositoBancario(Guid extratoId, string descricao, Real valor)
@@ -20,6 +22,8 @@ namespace GCB.Dominio.Entidades
             ExtratoId = extratoId;
             Descricao = descricao;
             Valor = valor;
+
+            DataRegistro = DateTime.Now;
 
             Validate(this, new DepositoBancarioValidator());
 
@@ -35,6 +39,9 @@ namespace GCB.Dominio.Entidades
                 .NotEmpty()
                 .WithMessage("Necessário informar o extrato.");
 
+            RuleFor(dp => dp.DataRegistro)
+                .NotEmpty()
+                .WithMessage("Necessário informar a data do deposito.");
 
             RuleFor(dp => dp.Valor.Valor)
                 .GreaterThan(0)

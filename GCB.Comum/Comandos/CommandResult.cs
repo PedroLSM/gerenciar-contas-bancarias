@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 
@@ -8,6 +9,7 @@ namespace GCB.Comum.Comandos
     {
         public HttpStatusCode Status { get; private set; }
         public string Mensagem { get; private set; }
+        public string UnknownException { get; set; }
         public object Dados { get; private set; }
 
         public CommandResult(HttpStatusCode statusCode, string mensagem, object dados)
@@ -15,6 +17,14 @@ namespace GCB.Comum.Comandos
             Status = statusCode;
             Mensagem = mensagem;
             Dados = dados;
+        }
+
+        public CommandResult(string mensagem, string unknownException)
+        {
+            Dados = null;
+            Mensagem = mensagem;
+            UnknownException = unknownException;
+            Status = HttpStatusCode.InternalServerError;
         }
 
         public IActionResult ActionResult()

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using GCB.Dominio.Enums;
 
 namespace GCB.Aplicacao.Comandos.Extratos.RealizarRetiradaBancaria
 {
@@ -10,6 +11,14 @@ namespace GCB.Aplicacao.Comandos.Extratos.RealizarRetiradaBancaria
                 .NotEmpty()
                 .WithMessage("Necessário informar o extrato.");
 
+            RuleFor(dp => dp.TipoRetirada)
+                .IsInEnum()
+                .WithMessage("Necessário informar o tipo da retirada.");
+
+            RuleFor(dp => dp.ExtratoTransferenciaId)
+                .NotEmpty()
+                .WithMessage("Necessário informar o extrato da conta destinatária.")
+                .When(dp => dp.TipoRetirada == TipoRetirada.Transferencia);
 
             RuleFor(dp => dp.Valor)
                 .GreaterThan(0)

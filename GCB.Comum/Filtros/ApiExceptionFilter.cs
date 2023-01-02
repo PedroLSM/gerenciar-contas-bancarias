@@ -3,6 +3,7 @@ using GCB.Comum.Excecoes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -14,7 +15,9 @@ namespace GCB.Comum.Filtros
     {
         private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
 
-        public ApiExceptionFilter()
+        private readonly ILogger<ApiExceptionFilter> _logger;
+
+        public ApiExceptionFilter(ILogger<ApiExceptionFilter> logger)
         {
             // Register known exception types and handlers.
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
@@ -22,6 +25,8 @@ namespace GCB.Comum.Filtros
                 { typeof(ValidationException), HandleValidationException },
                 { typeof(NotFoundException), HandleNotFoundException },
             };
+
+            _logger = logger;
         }
 
         public override void OnException(ExceptionContext context)
@@ -34,21 +39,22 @@ namespace GCB.Comum.Filtros
         private void HandleException(ExceptionContext context)
         {
             Type type = context.Exception.GetType();
-            if (_exceptionHandlers.ContainsKey(type))
+            if (_exceptionHandlers.TryGetValue(type, out Action<ExceptionContext> value))
             {
-                _exceptionHandlers[type].Invoke(context);
+                value.Invoke(context);
                 return;
             }
 
             HandleUnknownException(context);
         }
 
-        private static void HandleUnknownException(ExceptionContext context)
+        private void HandleUnknownException(ExceptionContext context)
         {
+            _logger.LogError($"Exception: {context.Exception};\n\tActionDescriptor: {context.ActionDescriptor.DisplayName}");
+
             var details = new CommandResult(
-                HttpStatusCode.InternalServerError,
-                "Um erro desconhecido ocorreu ao processar sua requisição.",
-                null
+                 "⚠ Ops, algo deu errado!",
+                 context.Exception.Message
             );
 
             context.Result = new ObjectResult(details)

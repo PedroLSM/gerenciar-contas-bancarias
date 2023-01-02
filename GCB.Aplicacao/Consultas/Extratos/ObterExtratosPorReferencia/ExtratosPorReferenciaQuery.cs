@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GCB.Aplicacao.Consultas.Extratos.ObterExtratosPorReferencia
 {
-    public class ExtratosPorReferenciaQuery : IRequest<IEnumerable<ExtratoPorReferenciaDto>>
+    public class ExtratosPorReferenciaQuery : IRequest<IEnumerable<ObterHistoricoPorExtratoDto>>
     {
         public Guid ReferenciaId { get; private set; }
 

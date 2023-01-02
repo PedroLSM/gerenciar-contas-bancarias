@@ -11,7 +11,12 @@ namespace GCB.Aplicacao.Comandos.Referencias.AdicionarReferencia
 
         public AdicionarReferenciaCommand(string mesReferencia)
         {
-            MesReferencia = mesReferencia.ParseEnum<Mes>();;
+            MesReferencia = mesReferencia.ParseEnum<Mes>();
+        }
+
+        public AdicionarReferenciaCommand(Mes mesReferencia)
+        {
+            MesReferencia = mesReferencia;
         }
     }
 }

@@ -1,18 +1,13 @@
-﻿using GCB.Dominio.Enums;
-using GCB.Dominio.EventosDominio;
+﻿using GCB.Dominio.EventosDominio;
 using GCB.Dominio.Repositorios;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace GCB.Aplicacao.EventosDominio.ReferenciaCriada
 {
-    public class CalcularDiferencaComMesAnteriorDomainEventHandler : INotificationHandler<ReferenciaCriadaDomainEvent>
+    public class CalcularDiferencaComMesAnteriorDomainEventHandler : INotificationHandler<CalcularDiferencaSaldoDomainEvent>
     {
         private readonly ILogger<CalcularDiferencaComMesAnteriorDomainEventHandler> logger;
         private readonly IUnitOfWork unitOfWork;
@@ -26,32 +21,23 @@ namespace GCB.Aplicacao.EventosDominio.ReferenciaCriada
             this.unitOfWork = unitOfWork;
         }
 
-        public Task Handle(ReferenciaCriadaDomainEvent notification, CancellationToken cancellationToken)
+        public Task Handle(CalcularDiferencaSaldoDomainEvent notification, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Referência com o Id: {Id} foi criada, realizando calcula da diferença do saldo com o mês anterior.", notification.ReferenciaId);
-            
-            var referencias = unitOfWork.Referencia.GetAll();
+            logger.LogInformation("Realizando calcula da diferença do saldo com o mês anterior.");
 
-            if (!referencias.Any())
+            var referencias = unitOfWork.Referencia.ObterUltimasReferenciasParaCalculo();
+
+            if (referencias.Atual is null || referencias.Anterior is null)
             {
                 logger.LogInformation("Ainda não possui parametros suficientes para realizar o calculo.");
                 return Task.CompletedTask;
             }
 
-            var (mes1, ano1) = notification.MesReferencia - 1 <= 0 ? (notification.MesReferencia + 11, notification.AnoReferencia - 1) : (notification.MesReferencia - 1, notification.AnoReferencia);
-            var (mes2, ano2) = notification.MesReferencia - 2 <= 0 ? (notification.MesReferencia + 10, notification.AnoReferencia - 1) : (notification.MesReferencia - 2, notification.AnoReferencia);
+            var ref1 = referencias.Anterior;
+            var ref2 = referencias.Atual;
 
-            var ultimasReferencias = referencias
-                .Where(r => (mes1 == r.Mes && ano1 == r.Ano) || (mes2 == r.Mes && ano2 == r.Ano));
-
-            if (!ultimasReferencias.Any())
-            {
-                logger.LogInformation("Ainda não possui parametros suficientes para realizar o calculo.");
-                return Task.CompletedTask;
-            }
-
-            var ref1 = ultimasReferencias.First();
-            var ref2 = ultimasReferencias.Last();
+            logger.LogInformation($"Referência Anterior |  [{ref1.Id} - {ref1.Mes}/{ref1.Ano}] [R$ {ref1.Saldo.Valor}].");
+            logger.LogInformation($"Referência Atual    |  [{ref2.Id} - {ref2.Mes}/{ref2.Ano}] [R$ {ref2.Saldo.Valor}].");
 
             ref2.CalcularDiferenciaSaldoAnterior(ref1);
 

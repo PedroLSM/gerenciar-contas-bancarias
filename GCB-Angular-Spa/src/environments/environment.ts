@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
 
-  gateway: 'https://localhost:5257/GCB'
+  gateway: 'https://192.168.18.5:5257/GCB'
 };
 
 /*

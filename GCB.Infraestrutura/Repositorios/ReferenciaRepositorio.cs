@@ -18,6 +18,18 @@ namespace GCB.Infraestrutura.Repositorios
         {
         }
 
+        public (Referencia Atual, Referencia Anterior) ObterUltimasReferenciasParaCalculo()
+        {
+            var referencias = Context.Set<Referencia>()
+                .FromSqlRaw("SELECT TOP 2 * FROM Referencias ORDER BY Id DESC")
+                .ToArray();
+
+            if (referencias.Length == 2)
+                return (referencias[0], referencias[1]);            
+
+            return (null, null);
+        }
+
         public async Task<bool> ReferenciaExiste(Mes mesReferencia)
         {
             return await Context.Set<Referencia>()

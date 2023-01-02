@@ -20,7 +20,7 @@ namespace GCB.Aplicacao.Comandos.Extratos.RealizarDepositoBancario
         public async Task<CommandResult> Handle(RealizarDepositoBancarioCommand request, CancellationToken cancellationToken)
         {
             var extrato = unitOfWork.Extrato.GetSingle(request.ExtratoId);
-            
+
             var contaBancaria = unitOfWork.ContaBancaria.GetSingle(extrato.ContaBancariaId);
 
             var depositoBancario = new DepositoBancario(request.ExtratoId, request.Descricao, new Real(request.Valor));
@@ -31,7 +31,13 @@ namespace GCB.Aplicacao.Comandos.Extratos.RealizarDepositoBancario
 
             await unitOfWork.SaveChanges(cancellationToken);
 
-            return new CommandResult(HttpStatusCode.Created, "Deposito adicionado", new { extrato.Saldo, extrato.TotalDepositado, extrato.TotalRetirado });
+            return new CommandResult(HttpStatusCode.Created, "Deposito adicionado", new
+            {
+                ExtratoId = extrato.Id,
+                Saldo = extrato.Saldo.Valor,
+                TotalDepositado = extrato.TotalDepositado.Valor,
+                TotalRetirado = extrato.TotalRetirado.Valor
+            });
         }
     }
 }
