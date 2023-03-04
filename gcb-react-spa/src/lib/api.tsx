@@ -51,6 +51,25 @@ export const retiradaBancaria = async (deposito: any) => {
   return responseData;
 };
 
+export const carregarExtrato = async (extrato: any) => {
+  var bodyFormData = new FormData();
+
+  console.log(extrato);
+
+  bodyFormData.append("ExtratoId", extrato.extratoId);
+  bodyFormData.append("Arquivo", extrato.arquivo);
+
+  const response = await instance.post(
+    "/Extrato/Adicionar/Extrato",
+    bodyFormData,
+    { headers: { "Content-Type": "multipart/form-data" } }
+  );
+
+  const responseData = response.data;
+
+  return responseData;
+};
+
 export const depositoBancario = async (deposito: any) => {
   const response = await instance.post(
     "/Extrato/Adicionar/DepositoBancario",

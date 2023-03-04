@@ -1,4 +1,5 @@
-﻿using GCB.Aplicacao.Comandos.Extratos.RealizarDepositoBancario;
+﻿using GCB.Aplicacao.Comandos.Extratos.CarregarExtratoCSV;
+using GCB.Aplicacao.Comandos.Extratos.RealizarDepositoBancario;
 using GCB.Aplicacao.Comandos.Extratos.RealizarRetiradaBancaria;
 using GCB.Aplicacao.Consultas.Extratos.ObterContasTransferenciaPorReferencia;
 using GCB.Aplicacao.Consultas.Extratos.ObterExtratosPorReferencia;
@@ -46,6 +47,14 @@ namespace GCB.Api.Controllers
 
         [HttpPost("Adicionar/RetiradaBancaria")]
         public async Task<IActionResult> AdicionarRetirada([FromBody] RealizarRetiradaBancariaCommand request)
+        {
+            var response = await Mediator.Send(request);
+
+            return response.ActionResult();
+        }
+
+        [HttpPost("Adicionar/Extrato")]
+        public async Task<IActionResult> AdicionarExtrato([FromForm] CarregarExtratoCSVCommand request)
         {
             var response = await Mediator.Send(request);
 

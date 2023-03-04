@@ -2,7 +2,6 @@
 using GCB.Comum.Factories;
 using GCB.Comum.Filtros;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

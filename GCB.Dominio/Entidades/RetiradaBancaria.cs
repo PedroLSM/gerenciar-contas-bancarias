@@ -29,6 +29,20 @@ namespace GCB.Dominio.Entidades
 
             AddNotifications(Valor);
         }
+
+        public RetiradaBancaria(Guid extratoId, string descricao, Real valor, DateTime dataRegistro)
+        {
+            Id = NewId.NextGuid();
+            ExtratoId = extratoId;
+            Descricao = descricao;
+            Valor = valor;
+
+            DataRegistro = dataRegistro;
+
+            Validate(this, new RetiradaBancariaValidator());
+
+            AddNotifications(Valor);
+        }
     }
 
     internal class RetiradaBancariaValidator : AbstractValidator<RetiradaBancaria>

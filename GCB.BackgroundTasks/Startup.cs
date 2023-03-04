@@ -12,6 +12,7 @@ using GCB.Infraestrutura.Repositorios;
 using GCB.Aplicacao.Comandos.Referencias.AdicionarReferencia;
 using MediatR;
 using FluentValidation;
+using GCB.Infraestrutura.Extensoes;
 
 namespace GCB.BackgroundTasks
 {
@@ -52,7 +53,7 @@ namespace GCB.BackgroundTasks
 
             services.AddHangfireServer();
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddCoreServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

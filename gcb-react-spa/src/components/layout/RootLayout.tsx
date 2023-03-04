@@ -1,5 +1,6 @@
 import { CssBaseline } from "@mui/material";
 import { Outlet } from "react-router-dom";
+import Toastr from "../shared/Toastr";
 import MainBody from "./MainBody";
 import MainHeader from "./MainHeader";
 
@@ -11,6 +12,8 @@ const RootLayout = () => {
       <MainBody>
         <Outlet />
       </MainBody>
+
+      <Toastr />
     </>
   );
 };

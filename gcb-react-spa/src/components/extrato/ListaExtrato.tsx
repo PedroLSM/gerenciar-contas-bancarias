@@ -1,13 +1,22 @@
-import { useState } from 'react'
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { useState } from "react";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
-import usePaginator from '../../hooks/use-paginator'
-import Paginator from '../shared/Paginator'
-import VisibleCurrentText from '../UI/VisibleCurrentText'
-import Depositar from './Depositar'
-import Historico from './Historico'
-import Retirar from './Retirar'
-import { Extrato } from '../../models/Extrato'
+import usePaginator from "../../hooks/use-paginator";
+import Paginator from "../shared/Paginator";
+import VisibleCurrentText from "../UI/VisibleCurrentText";
+import Depositar from "./Depositar";
+import Historico from "./Historico";
+import Retirar from "./Retirar";
+import { Extrato } from "../../models/Extrato";
+import CarregarExtrato from "./CarregarExtrato";
 
 const ListaExtrato = (props: any) => {
   const paginator = usePaginator<Extrato>({ rowsPerPageOptions: [15, 30, 50] });
@@ -81,6 +90,10 @@ const ListaExtrato = (props: any) => {
                     <Retirar
                       contaBancaria={ext}
                       onRetirar={atualizarContaHandler}
+                    />
+                    <CarregarExtrato
+                      contaBancaria={ext}
+                      onCarregar={atualizarContaHandler}
                     />
                     <Historico contaBancaria={ext} />
                   </TableCell>

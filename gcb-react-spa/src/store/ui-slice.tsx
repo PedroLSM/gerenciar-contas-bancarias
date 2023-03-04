@@ -1,16 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const OD_ITEM_KEY = "ocultarDinheiro";
 
 const loadState = () => {
   try {
     const isVisible = localStorage.getItem(OD_ITEM_KEY);
+
     if (isVisible === null) {
-      return { ocultarDinheiro: false };
+      return { ocultarDinheiro: false, exibirToastr: { show: false } };
     }
-    return { ocultarDinheiro: true };
+
+    return { ocultarDinheiro: true, exibirToastr: { show: false } };
   } catch (err) {
-    return { ocultarDinheiro: false };
+    return { ocultarDinheiro: false, exibirToastr: { show: false } };
   }
 };
 
@@ -20,6 +22,12 @@ const uiSlice = createSlice({
   reducers: {
     alternarVisibilidadeDinheiro(state) {
       state.ocultarDinheiro = !state.ocultarDinheiro;
+    },
+    exibirToastr(
+      state,
+      action: PayloadAction<{ show: boolean; text?: string }>
+    ) {
+      state.exibirToastr = action.payload;
     },
   },
 });

@@ -1,22 +1,22 @@
 import { useState } from "react";
-import { CreditCardOff } from "@mui/icons-material";
+import { UploadFile } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 
 import useHttp from "../../hooks/use-http";
-import DialogRetiradaBancaria from "./DialogRetiradaBancaria";
-import { retiradaBancaria } from "../../lib/api";
 import { Extrato } from "../../models/Extrato";
+import DialogCarregarExtrato from "./DialogCarregarExtrato";
+import { carregarExtrato } from "../../lib/api";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../store/ui-slice";
 
-const Retirar = (props: any) => {
+const CarregarExtrato = (props: any) => {
   const dispatch = useDispatch();
 
   const { contaBancaria }: { contaBancaria: Extrato } = props;
 
   const [open, setOpen] = useState(false);
 
-  const { sendRequest, status, error } = useHttp(retiradaBancaria);
+  const { sendRequest, status, error } = useHttp(carregarExtrato);
 
   const clickOpenHandler = () => {
     setOpen(true);
@@ -26,14 +26,16 @@ const Retirar = (props: any) => {
     setOpen(false);
   };
 
-  const addRetiradaHandler = (retirada: any) => {
+  const addExtratoHandler = (retirada: any) => {
     const retirar = { ...retirada, extratoId: contaBancaria.extratoId };
 
     sendRequest(retirar).then((response: any) => {
+      // console.log("response", response);
       if (response) {
         closeHandler();
-        props.onRetirar(response.dados as Extrato);
+        props.onCarregar(response.dados as Extrato);
       } else if (error) {
+        // console.log(error);
         dispatch(uiActions.exibirToastr({ show: true, text: error }));
       }
     });
@@ -41,15 +43,15 @@ const Retirar = (props: any) => {
 
   return (
     <>
-      <Tooltip title="Realizar Retirada Bancária">
-        <IconButton color="error" onClick={clickOpenHandler}>
-          <CreditCardOff />
+      <Tooltip title="Carregar Extrato Bancário (CSV)">
+        <IconButton color="info" onClick={clickOpenHandler}>
+          <UploadFile />
         </IconButton>
       </Tooltip>
-      <DialogRetiradaBancaria
+      <DialogCarregarExtrato
         open={open}
         onClose={closeHandler}
-        onAddRetirada={addRetiradaHandler}
+        onAddExtrato={addExtratoHandler}
         isLoading={status === "pending"}
         nomeBanco={contaBancaria.nomeBanco}
         referenciaId={contaBancaria.referenciaId}
@@ -59,4 +61,4 @@ const Retirar = (props: any) => {
   );
 };
 
-export default Retirar;
+export default CarregarExtrato;

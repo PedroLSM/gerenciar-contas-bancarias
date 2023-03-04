@@ -1,9 +1,12 @@
 ﻿using FluentValidation;
 using GCB.Comum.Entidades;
+using GCB.Dominio.DTOs;
 using GCB.Dominio.Enums;
 using GCB.Dominio.EventosDominio;
 using GCB.Dominio.ObjetosValor;
 using MassTransit;
+using System;
+using System.Collections.Generic;
 
 namespace GCB.Dominio.Entidades
 {

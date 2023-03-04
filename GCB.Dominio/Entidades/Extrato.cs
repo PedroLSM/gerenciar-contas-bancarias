@@ -1,5 +1,7 @@
-﻿using FluentValidation;
+﻿using Azure.Core;
+using FluentValidation;
 using GCB.Comum.Entidades;
+using GCB.Dominio.DTOs;
 using GCB.Dominio.EventosDominio;
 using GCB.Dominio.ObjetosValor;
 using MassTransit;
@@ -75,11 +77,39 @@ namespace GCB.Dominio.Entidades
 
             TotalRetirado += retirada.Valor;
             Saldo -= retirada.Valor;
-            
+
             AddDomainEvent(new RetiradaBancariaRealizadaDomainEvent(retirada.Id, ReferenciaId, ContaBancariaId, retirada.Valor));
         }
-    }
 
+        public void AdicionarExtrato(IEnumerable<CsvExtratoDTO> csvExtrato, ContaBancaria contaBancaria)
+        {
+            foreach (var extrato in csvExtrato)
+            {
+                if (extrato.ValorFormatado >= 0)
+                {
+                    var depositoBancario = new DepositoBancario(
+                        Id,
+                        extrato.Descricao,
+                        new Real(Math.Abs(extrato.ValorFormatado)),
+                        extrato.DataFormatada
+                    );
+
+                    AdicionarDeposito(depositoBancario, contaBancaria);
+                }
+                else
+                {
+                    var retiradaBancario = new RetiradaBancaria(
+                        Id, 
+                        extrato.Descricao, 
+                        new Real(Math.Abs(extrato.ValorFormatado)), 
+                        extrato.DataFormatada
+                    );
+
+                    AdicionarRetirada(retiradaBancario, contaBancaria);
+                }
+            }
+        }
+    }
     internal class ExtratoValidator : AbstractValidator<Extrato>
     {
         public ExtratoValidator()

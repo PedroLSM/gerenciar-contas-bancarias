@@ -1,18 +1,22 @@
-import { AddCard } from '@mui/icons-material'
-import { IconButton, Tooltip } from '@mui/material'
-import { useState } from 'react'
+import { AddCard } from "@mui/icons-material";
+import { IconButton, Tooltip } from "@mui/material";
+import { useState } from "react";
 
-import useHttp from '../../hooks/use-http'
-import DialogDepositoBancario from './DialogDepositoBancario'
-import { depositoBancario } from '../../lib/api'
-import { Extrato } from '../../models/Extrato'
+import useHttp from "../../hooks/use-http";
+import DialogDepositoBancario from "./DialogDepositoBancario";
+import { depositoBancario } from "../../lib/api";
+import { Extrato } from "../../models/Extrato";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../../store/ui-slice";
 
 const Depositar = (props: any) => {
+  const dispatch = useDispatch();
+
   const { contaBancaria }: { contaBancaria: Extrato } = props;
 
   const [open, setOpen] = useState(false);
 
-  const { sendRequest, status } = useHttp(depositoBancario);
+  const { sendRequest, status, error } = useHttp(depositoBancario);
 
   const clickOpenHandler = () => {
     setOpen(true);
@@ -25,10 +29,13 @@ const Depositar = (props: any) => {
   const addDepositoHandler = (deposito: any) => {
     const depositar = { ...deposito, extratoId: contaBancaria.extratoId };
 
-    sendRequest(depositar).then((reponse: any) => {
-      closeHandler();
-
-      props.onDepositar(reponse.dados as Extrato);
+    sendRequest(depositar).then((response: any) => {
+      if (response) {
+        closeHandler();
+        props.onDepositar(response.dados as Extrato);
+      } else if (error) {
+        dispatch(uiActions.exibirToastr({ show: true, text: error }));
+      }
     });
   };
 

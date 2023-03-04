@@ -1,15 +1,24 @@
-import { useEffect } from 'react'
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import { format } from 'date-fns'
+import { useEffect } from "react";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import { format } from "date-fns";
 
-import useHttp from '../../hooks/use-http'
-import usePaginator from '../../hooks/use-paginator'
-import DialogMain from '../shared/DialogMain'
-import Paginator from '../shared/Paginator'
-import VisibleCurrentText from '../UI/VisibleCurrentText'
-import { obterHistoricoExtrato } from '../../lib/api'
-import { HistoricoExtrato } from '../../models/Extrato'
-import { currencyFormatByOperation } from '../../lib/number-format'
+import useHttp from "../../hooks/use-http";
+import usePaginator from "../../hooks/use-paginator";
+import DialogMain from "../shared/DialogMain";
+import Paginator from "../shared/Paginator";
+import VisibleCurrentText from "../UI/VisibleCurrentText";
+import { obterHistoricoExtrato } from "../../lib/api";
+import { HistoricoExtrato } from "../../models/Extrato";
+import { currencyFormatByOperation } from "../../lib/number-format";
 
 const DialogHistoricoExtrato = (props: any) => {
   const { open, nomeBanco, extratoId } = props;
@@ -41,6 +50,7 @@ const DialogHistoricoExtrato = (props: any) => {
       isLoading={status === "pending"}
       title={`Histórico - ${nomeBanco}`}
       onClose={closeHandler}
+      maxWidth="lg"
     >
       <TableContainer component={Paper}>
         <Table size="small">

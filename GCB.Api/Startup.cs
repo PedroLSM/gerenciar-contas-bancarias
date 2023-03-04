@@ -2,8 +2,11 @@ using FluentValidation;
 using GCB.Aplicacao.Comandos.Referencias.AdicionarReferencia;
 using GCB.Comum.Extensoes;
 using GCB.Dominio.Repositorios;
+using GCB.Dominio.Servicos;
 using GCB.Infraestrutura;
+using GCB.Infraestrutura.Extensoes;
 using GCB.Infraestrutura.Repositorios;
+using GCB.Infraestrutura.Servicos;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,7 +47,7 @@ namespace GCB.Api
 
             services.AddOpenApiDocumentation();
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddCoreServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

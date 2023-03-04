@@ -6,6 +6,17 @@ interface HttpReducerAction {
   errorMessage?: string;
 }
 
+interface DadoErro {
+  [key: string]: string[];
+}
+
+interface HttpErrorResponse {
+  status: number;
+  mensagem: string;
+  unknownException?: any;
+  dados: DadoErro;
+}
+
 function httpReducer(state: any, action: HttpReducerAction) {
   if (action.type === "SEND") {
     return {
@@ -34,6 +45,28 @@ function httpReducer(state: any, action: HttpReducerAction) {
   return state;
 }
 
+function handlerError(error: HttpErrorResponse | undefined) {
+  if (error) {
+    console.log(error);
+    if (error.dados) {
+      let errorMsg = "";
+      for (const key in error.dados) {
+        const dado = error.dados[key];
+
+        const erros = dado.map((dd) => `• ${dd}`).join("\n");
+
+        errorMsg += erros;
+      }
+
+      return errorMsg || "Ops! Algo deu errado.";
+    } else {
+      return error.mensagem || "Ops! Algo deu errado.";
+    }
+  } else {
+    return "Ops! Algo deu errado.";
+  }
+}
+
 function useHttp(requestFunction: Function, startWithPending = false) {
   const [httpState, dispatch] = useReducer(httpReducer, {
     status: startWithPending ? "pending" : null,
@@ -51,9 +84,10 @@ function useHttp(requestFunction: Function, startWithPending = false) {
 
         return responseData;
       } catch (error: any) {
+        console.log(error);
         dispatch({
           type: "ERROR",
-          errorMessage: error.message || "⚠️ Ops! Algo deu errado.",
+          errorMessage: handlerError(error?.response?.data),
         });
       }
     },

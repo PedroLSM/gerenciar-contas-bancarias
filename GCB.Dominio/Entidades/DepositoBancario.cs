@@ -29,6 +29,20 @@ namespace GCB.Dominio.Entidades
 
             AddNotifications(Valor);
         }
+
+        public DepositoBancario(Guid extratoId, string descricao, Real valor, DateTime dataRegistro)
+        {
+            Id = NewId.NextGuid();
+            ExtratoId = extratoId;
+            Descricao = descricao;
+            Valor = valor;
+
+            DataRegistro = dataRegistro;
+
+            Validate(this, new DepositoBancarioValidator());
+
+            AddNotifications(Valor);
+        }
     }
 
     internal class DepositoBancarioValidator : AbstractValidator<DepositoBancario>
