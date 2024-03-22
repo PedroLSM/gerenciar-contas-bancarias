@@ -4,6 +4,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,6 +30,15 @@ namespace GCB.Aplicacao.Consultas.Extratos.ObterHistoricoPorExtrato
 
         async Task<IEnumerable<ObterHistoricoPorExtratoDto>> ObterHistorico(IDbConnection connection, Guid extratoId)
         {
+            const string sqlExtratoAnterior = @"
+                SELECT TOP 1 Id FROM Extratos e
+                WHERE e.ContaBancariaId = (SELECT TOP 1 ContaBancariaId FROM Extratos WHERE Id = @ExtratoId)
+	                and e.Id <> @ExtratoId
+                ORDER BY e.Id DESC;
+            ";
+
+            var extratoAnteriorId = await connection.ExecuteScalarAsync<Guid>(sqlExtratoAnterior, new { ExtratoId = extratoId });
+
             const string sqlReferencia = @"
                 SELECT Id as OperacaoId, ExtratoId, Descricao, ValorDepositado as Valor, DataRegistro, 'Deposito' as TipoOperacao
                 FROM DepositosBancarios WHERE ExtratoId = @ExtratoId
@@ -46,7 +56,11 @@ namespace GCB.Aplicacao.Consultas.Extratos.ObterHistoricoPorExtrato
                 ORDER BY DataRegistro DESC
             ";
 
-            return await connection.QueryAsync<ObterHistoricoPorExtratoDto>(sqlReferencia, new { ExtratoId = extratoId });
+            var referenciasAtuais = await connection.QueryAsync<ObterHistoricoPorExtratoDto>(sqlReferencia, new { ExtratoId = extratoId });
+            var referenciasAnteriores = await connection.QueryAsync<ObterHistoricoPorExtratoDto>(sqlReferencia, new { ExtratoId = extratoAnteriorId });
+
+            return referenciasAtuais
+                .Concat(referenciasAnteriores.Take(1..7));
         }
     }
 }

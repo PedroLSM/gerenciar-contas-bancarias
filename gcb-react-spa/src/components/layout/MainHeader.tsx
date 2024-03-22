@@ -1,9 +1,10 @@
-import { Menu, Visibility, VisibilityOff } from '@mui/icons-material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { uiActions } from '../../store/ui-slice'
+import Logo from '../../assets/logo_2.png';
 
 const MainHeader = () => {
   const ocultarDinheiro = useSelector((state: any) => state.ui.ocultarDinheiro);
@@ -17,18 +18,22 @@ const MainHeader = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <Menu />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Link className='link-img' to="/">
+            <img
+              src={Logo}
+              alt="GCB"
+              width={75}
+            />
+          </Link>
+
+          {/* <Typography variant="h6" component="div" sx={{ flexGrow: 0, marginLeft: 2 }}>
             <Link className="link" to="/">
-              Gerenciar Contas Bancarias
+              Referências
+            </Link>
+          </Typography> */}
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, marginLeft: 2 }}>
+            <Link className="link" to="/emprestimos">
+              Empréstimos
             </Link>
           </Typography>
           <IconButton

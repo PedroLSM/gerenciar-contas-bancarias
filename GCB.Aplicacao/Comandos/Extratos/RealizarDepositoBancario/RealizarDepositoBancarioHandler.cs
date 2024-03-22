@@ -23,7 +23,9 @@ namespace GCB.Aplicacao.Comandos.Extratos.RealizarDepositoBancario
 
             var contaBancaria = unitOfWork.ContaBancaria.GetSingle(extrato.ContaBancariaId);
 
-            var depositoBancario = new DepositoBancario(request.ExtratoId, request.Descricao, new Real(request.Valor));
+            var depositoBancario = request.Data.HasValue ?
+                new DepositoBancario(request.ExtratoId, request.Descricao, new Real(request.Valor), request.Data.Value.Date) :
+                new DepositoBancario(request.ExtratoId, request.Descricao, new Real(request.Valor));
 
             extrato.AdicionarDeposito(depositoBancario, contaBancaria);
 

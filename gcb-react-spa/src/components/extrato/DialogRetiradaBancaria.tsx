@@ -32,6 +32,7 @@ const DialogRetiradaBancaria = (props: any) => {
       extratoTransferenciaId: "",
       descricao: "",
       valor: 0,
+      data: null,
     },
   });
 
@@ -103,6 +104,13 @@ const DialogRetiradaBancaria = (props: any) => {
                 items={contasTransferencia}
               />
             )}
+
+            <Input
+              name="data"
+              label="Data"
+              type="date"
+              control={control}
+            />
 
             <Input
               name="descricao"

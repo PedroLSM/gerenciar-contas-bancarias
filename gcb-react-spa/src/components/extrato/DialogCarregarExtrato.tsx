@@ -1,3 +1,4 @@
+import { Alert } from "@mui/material";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -29,6 +30,10 @@ const DialogCarregarExtrato = (props: any) => {
       btnConfirmText="Carregar Extrato"
       onConfirm={handleSubmit(onAddExtrato)}
     >
+      <Alert severity="info">
+        Cabeçalho: <b>Data;Descricao;Valor</b>
+      </Alert>
+
       <Input
         name="arquivo"
         label="Arquivo"

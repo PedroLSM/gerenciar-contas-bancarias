@@ -27,6 +27,8 @@ namespace GCB.Infraestrutura
             modelBuilder.ApplyConfiguration(new ReferenciaConfiguracao());
             modelBuilder.ApplyConfiguration(new RetiradaBancariaConfiguracao());
             modelBuilder.ApplyConfiguration(new ExtratoConfiguracao());
+            modelBuilder.ApplyConfiguration(new EmprestimoConfiguracao());
+            modelBuilder.ApplyConfiguration(new EmprestimoPagamentoConfiguracao());
         }
     }
 }

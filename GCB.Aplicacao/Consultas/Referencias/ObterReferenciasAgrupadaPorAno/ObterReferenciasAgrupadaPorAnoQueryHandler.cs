@@ -1,10 +1,13 @@
 ﻿using Dapper;
 using GCB.Comum.Factories;
 using GCB.Dominio.Entidades;
+using GCB.Dominio.Enums;
+using GCB.Dominio.ObjetosValor;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -40,9 +43,29 @@ namespace GCB.Aplicacao.Consultas.Referencias.ObterReferenciasAgrupadaPorAno
 
             var referencias = await connection.QueryAsync<ReferenciaDto>(sqlReferencia);
 
+
+            string sql = "SELECT Id, NomeBanco, TipoConta, Ativa, SaldoAtual FROM ContasBancarias";
+
+            var result = await connection.QueryAsync<ContaTeste, decimal, ContaTeste>(
+                sql,
+                (conta, moeda) =>
+                {
+                    conta.SaldoAtual = new Real(moeda);
+                    return conta;
+                },
+                splitOn: "SaldoAtual"
+            );
+
             return referencias
                 .GroupBy(x => x.AnoReferencia)
                 .Select(x => new ReferenciasAgrupadaPorAnoDto(x.Key, x.ToList()));
         }
+    }
+
+    public class ContaTeste
+    {
+        public string NomeBanco { get; set; }
+        public Real SaldoAtual { get; set; }
+        public bool Ativa { get; set; }
     }
 }

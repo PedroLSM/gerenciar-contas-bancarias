@@ -10,6 +10,7 @@ import RootLayout from "./components/layout/RootLayout";
 import ErrorPage from "./pages/ErrorPage";
 import ExtratoPage from "./pages/ExtratoPage";
 import ReferenciasPage from "./pages/ReferenciasPage";
+import EmprestimosPage from "./pages/EmprestimosPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
         path="/referencias/:referenciaId/extrato"
         element={<ExtratoPage />}
       />
+      <Route path="/emprestimos" element={<EmprestimosPage />} />
     </Route>
   )
 );

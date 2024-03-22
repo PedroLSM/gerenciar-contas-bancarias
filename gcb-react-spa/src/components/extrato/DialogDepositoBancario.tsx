@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-
 import DialogMain from '../shared/DialogMain'
 import Input from '../shared/Input'
 
@@ -10,6 +9,7 @@ const DialogDepositoBancario = (props: any) => {
   const { control, handleSubmit, reset } = useForm({
     mode: "onBlur",
     defaultValues: {
+      data: null,
       descricao: "",
       valor: 0,
     },
@@ -31,6 +31,13 @@ const DialogDepositoBancario = (props: any) => {
       onConfirm={handleSubmit(onAddDeposito)}
     >
       <Input
+        name="data"
+        label="Data"
+        type="date"
+        control={control}
+      />
+
+    <Input
         name="descricao"
         label="Descrição"
         control={control}

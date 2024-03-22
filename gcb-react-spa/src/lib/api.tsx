@@ -114,3 +114,43 @@ const mapReferencias = (referencias: Referencia[]) => {
 
   return referencias;
 };
+
+export const obterEmprestimos = async () => {
+  const response = await instance.get("/Emprestimo");
+
+  const responseData = response.data;
+
+  return responseData;
+};
+
+export const adicionarEmprestimo = async (emprestimo: any) => {
+  const response = await instance.post(
+    "/Emprestimo/Adicionar",
+    emprestimo
+  );
+
+  const responseData = response.data;
+
+  return responseData;
+};
+
+export const obterHistoricoPagamento = async (emprestimoId: string) => {
+  const response = await instance.get("/Emprestimo/ObterPagamentosPorEmprestimo", {
+    params: { emprestimoId: `${emprestimoId}` },
+  });
+
+  const responseData = response.data;
+
+  return responseData;
+};
+
+export const adicionarEmprestimoPagamento = async (emprestimo: any) => {
+  const response = await instance.post(
+    "/Emprestimo/AdicionarPagamento",
+    emprestimo
+  );
+
+  const responseData = response.data;
+
+  return responseData;
+};

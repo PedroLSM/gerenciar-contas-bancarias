@@ -47,7 +47,7 @@ const ListaReferencias = (props: any) => {
                   </TableCell>
                   <TableCell>
                     <VisibleCurrentText
-                      signDisplay="exceptZero"
+                      signdisplay="exceptZero"
                       currency={mes.diferencaSaldoAnterior}
                     />
                   </TableCell>

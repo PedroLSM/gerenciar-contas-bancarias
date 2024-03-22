@@ -59,7 +59,9 @@ namespace GCB.Aplicacao.Comandos.Extratos.RealizarRetiradaBancaria
 
             var contaBancaria = unitOfWork.ContaBancaria.GetSingle(extrato.ContaBancariaId);
 
-            var retiradaBancaria = new RetiradaBancaria(request.ExtratoId, request.Descricao, new Real(request.Valor));
+            var retiradaBancaria = request.Data.HasValue ?             
+                new RetiradaBancaria(request.ExtratoId, request.Descricao, new Real(request.Valor), request.Data.Value.Date) :
+                new RetiradaBancaria(request.ExtratoId, request.Descricao, new Real(request.Valor));
 
             extrato.AdicionarRetirada(retiradaBancaria, contaBancaria);
 
@@ -75,7 +77,9 @@ namespace GCB.Aplicacao.Comandos.Extratos.RealizarRetiradaBancaria
             var extratoTransferencia = unitOfWork.Extrato.GetSingle(request.ExtratoTransferenciaId);
             var contaBancariaTransferencia = unitOfWork.ContaBancaria.GetSingle(extratoTransferencia.ContaBancariaId);
 
-            var depositoBancario = new DepositoBancario(request.ExtratoTransferenciaId.Value, $"[Transferência {contaBancaria.NomeBanco}] - {request.Descricao}", new Real(request.Valor));
+            var depositoBancario = request.Data.HasValue ?
+                new DepositoBancario(request.ExtratoTransferenciaId.Value, $"[Transferência {contaBancaria.NomeBanco}] - {request.Descricao}", new Real(request.Valor), request.Data.Value.Date) :
+                new DepositoBancario(request.ExtratoTransferenciaId.Value, $"[Transferência {contaBancaria.NomeBanco}] - {request.Descricao}", new Real(request.Valor));
 
             extratoTransferencia.AdicionarDeposito(depositoBancario, contaBancariaTransferencia);
 

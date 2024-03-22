@@ -3,11 +3,11 @@ import { NumericFormat } from 'react-number-format'
 
 export const numberFormat = (
   value: number,
-  signDisplay: "auto" | "never" | "always" | "exceptZero" = "auto"
+  signdisplay: "auto" | "never" | "always" | "exceptZero" = "auto"
 ) =>
   `R$ ${new Intl.NumberFormat("pt-BR", {
     minimumFractionDigits: 2,
-    signDisplay: signDisplay || "auto",
+    signDisplay: signdisplay || "auto",
   }).format(value)}`;
 
 export const currencyColorName = (value: number) => {
@@ -16,6 +16,10 @@ export const currencyColorName = (value: number) => {
   }
 
   return value > 0 ? "success.main" : "error.main";
+};
+
+export const currencyColorNameInvert = (value: number) => {
+  return value <= 0 ? "success.main" : "error.main";
 };
 
 export const progressColorName = (value: number) => {

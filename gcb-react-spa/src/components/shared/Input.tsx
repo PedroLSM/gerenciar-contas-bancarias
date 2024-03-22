@@ -2,6 +2,12 @@ import { TextField } from "@mui/material";
 import { Control, Controller } from "react-hook-form";
 
 import { NumberFormatCustom } from "../../lib/number-format";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { ptBR } from "date-fns/locale";
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
+import 'moment/locale/pt-br';
+import moment from 'moment';
 
 interface CustomInputProps {
   name: string;
@@ -23,12 +29,41 @@ const Input = (props: CustomInputProps) => {
     fsProp["focused"] = true;
   }
 
+  if (props.type === "date") {
+    moment.locale('pt-br');
+  }
+
   return (
     <Controller
       name={props.name}
       control={props.control}
       rules={props.rules}
       render={({ field, fieldState }) => {
+        if (props.type === 'date') {
+          return (
+            <LocalizationProvider adapterLocale={ptBR} dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label={props.label}
+                fullWidth
+                error={!!fieldState.error}
+                margin={props.margin || "dense"}
+                variant={props.variant || "filled"}
+                inputFormat="dd/MM/yyyy"
+                {...field}
+                {...fsProp}
+                renderInput={(params: any) =>
+                  <TextField
+                    {...params}
+                    fullWidth
+                    error={!!fieldState.error}
+                    margin={props.margin || "dense"}
+                    variant={props.variant || "filled"}
+                  />}
+              />
+            </LocalizationProvider>
+          )
+        }
+
         if (props.type !== "file") {
           return (
             <TextField
@@ -48,7 +83,6 @@ const Input = (props: CustomInputProps) => {
             />
           );
         }
-
         return (
           <TextField
             {...field}

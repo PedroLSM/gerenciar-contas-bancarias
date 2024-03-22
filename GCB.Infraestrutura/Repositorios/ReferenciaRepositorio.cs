@@ -4,9 +4,7 @@ using GCB.Dominio.Enums;
 using GCB.Dominio.Repositorios;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GCB.Infraestrutura.Repositorios

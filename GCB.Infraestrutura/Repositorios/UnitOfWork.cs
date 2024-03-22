@@ -19,8 +19,8 @@ namespace GCB.Infraestrutura.Repositorios
 
         public IReferenciaRepositorio Referencia => new ReferenciaRepositorio(_context);
         public IExtratoRepositorio Extrato => new ExtratoRepositorio(_context);
-
         public IContaBancariaRepositorio ContaBancaria => new ContaBancariaRepositorio(_context);
+        public IEmprestimoRepositorio Emprestimo => new EmprestimoRepositorio(_context);
 
         public async Task SaveChanges(CancellationToken cancellationToken = default)
         {

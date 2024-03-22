@@ -10,17 +10,19 @@ namespace GCB.Aplicacao.Comandos.Extratos.RealizarRetiradaBancaria
     {
         public Guid ExtratoId { get; private set; }
         public string Descricao { get; private set; }
+        public DateTime? Data { get; private set; }
         public decimal Valor { get; private set; }
         public Guid? ExtratoTransferenciaId { get; private set; }
         public TipoRetirada TipoRetirada { get; private set; }
 
-        public RealizarRetiradaBancariaCommand(Guid extratoId, string descricao, decimal valor, string tipoRetirada, Guid? extratoTransferenciaId)
+        public RealizarRetiradaBancariaCommand(Guid extratoId, string descricao, decimal valor, string tipoRetirada, Guid? extratoTransferenciaId, DateTime? data = null)
         {
             ExtratoId = extratoId;
             Descricao = descricao;
             Valor = valor;
             TipoRetirada = tipoRetirada.ParseEnum<TipoRetirada>();
             ExtratoTransferenciaId = extratoTransferenciaId;
+            Data = data;
         }
     }
 }

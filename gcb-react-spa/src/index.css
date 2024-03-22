@@ -38,3 +38,13 @@ code {
   text-decoration: none;
   color: unset;
 }
+
+.link-img {
+  text-decoration: none;
+  color: unset;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

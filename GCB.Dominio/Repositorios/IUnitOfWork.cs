@@ -8,6 +8,7 @@ namespace GCB.Dominio.Repositorios
         IReferenciaRepositorio Referencia { get; }
         IExtratoRepositorio Extrato { get; }
         IContaBancariaRepositorio ContaBancaria { get; }
+        IEmprestimoRepositorio Emprestimo { get; }
 
         Task SaveChanges(CancellationToken cancellationToken = default);
     }

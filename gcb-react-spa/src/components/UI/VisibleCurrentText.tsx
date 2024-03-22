@@ -32,7 +32,7 @@ const VisibleCurrentText = (props: any) => {
       {showSkeleton ? (
         <Skeleton />
       ) : (
-        numberFormat(props.currency, props.signDisplay)
+        numberFormat(props.currency, props.signdisplay)
       )}
     </Typography>
   );

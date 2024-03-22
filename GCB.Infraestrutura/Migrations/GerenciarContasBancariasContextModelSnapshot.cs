@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace GCB.Infraestrutura.Migrations
 {
     [DbContext(typeof(GerenciarContasBancariasContext))]
@@ -15,9 +17,10 @@ namespace GCB.Infraestrutura.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.2");
+                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("GCB.Dominio.Entidades.ContaBancaria", b =>
                 {
@@ -38,7 +41,7 @@ namespace GCB.Infraestrutura.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContasBancarias");
+                    b.ToTable("ContasBancarias", (string)null);
                 });
 
             modelBuilder.Entity("GCB.Dominio.Entidades.DepositoBancario", b =>
@@ -63,7 +66,42 @@ namespace GCB.Infraestrutura.Migrations
 
                     b.HasIndex("ExtratoId");
 
-                    b.ToTable("DepositosBancarios");
+                    b.ToTable("DepositosBancarios", (string)null);
+                });
+
+            modelBuilder.Entity("GCB.Dominio.Entidades.Emprestimo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataEmprestimo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Devedor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Emprestimos", (string)null);
+                });
+
+            modelBuilder.Entity("GCB.Dominio.Entidades.EmprestimoPagamento", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataPagamento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("EmprestimoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmprestimoId");
+
+                    b.ToTable("EmprestimoPagamentos", (string)null);
                 });
 
             modelBuilder.Entity("GCB.Dominio.Entidades.Extrato", b =>
@@ -83,7 +121,7 @@ namespace GCB.Infraestrutura.Migrations
 
                     b.HasIndex("ReferenciaId");
 
-                    b.ToTable("Extratos");
+                    b.ToTable("Extratos", (string)null);
                 });
 
             modelBuilder.Entity("GCB.Dominio.Entidades.Referencia", b =>
@@ -105,7 +143,7 @@ namespace GCB.Infraestrutura.Migrations
 
                     b.HasAlternateKey("Ano", "Mes");
 
-                    b.ToTable("Referencias");
+                    b.ToTable("Referencias", (string)null);
                 });
 
             modelBuilder.Entity("GCB.Dominio.Entidades.RetiradaBancaria", b =>
@@ -130,7 +168,7 @@ namespace GCB.Infraestrutura.Migrations
 
                     b.HasIndex("ExtratoId");
 
-                    b.ToTable("RetiradasBancarias");
+                    b.ToTable("RetiradasBancarias", (string)null);
                 });
 
             modelBuilder.Entity("GCB.Dominio.Entidades.ContaBancaria", b =>
@@ -183,6 +221,98 @@ namespace GCB.Infraestrutura.Migrations
                         });
 
                     b.Navigation("Valor");
+                });
+
+            modelBuilder.Entity("GCB.Dominio.Entidades.Emprestimo", b =>
+                {
+                    b.OwnsOne("GCB.Dominio.ObjetosValor.Real", "ValorEmprestimo", b1 =>
+                        {
+                            b1.Property<Guid>("EmprestimoId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<decimal>("Valor")
+                                .HasPrecision(10, 2)
+                                .HasColumnType("decimal(10,2)")
+                                .HasColumnName("ValorEmprestimo");
+
+                            b1.HasKey("EmprestimoId");
+
+                            b1.ToTable("Emprestimos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EmprestimoId");
+                        });
+
+                    b.OwnsOne("GCB.Dominio.ObjetosValor.Real", "ValorPago", b1 =>
+                        {
+                            b1.Property<Guid>("EmprestimoId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<decimal>("Valor")
+                                .HasPrecision(10, 2)
+                                .HasColumnType("decimal(10,2)")
+                                .HasColumnName("ValorPago");
+
+                            b1.HasKey("EmprestimoId");
+
+                            b1.ToTable("Emprestimos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EmprestimoId");
+                        });
+
+                    b.OwnsOne("GCB.Dominio.ObjetosValor.Real", "ValorPrevisto", b1 =>
+                        {
+                            b1.Property<Guid>("EmprestimoId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<decimal>("Valor")
+                                .HasPrecision(10, 2)
+                                .HasColumnType("decimal(10,2)")
+                                .HasColumnName("ValorPrevisto");
+
+                            b1.HasKey("EmprestimoId");
+
+                            b1.ToTable("Emprestimos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EmprestimoId");
+                        });
+
+                    b.Navigation("ValorEmprestimo");
+
+                    b.Navigation("ValorPago");
+
+                    b.Navigation("ValorPrevisto");
+                });
+
+            modelBuilder.Entity("GCB.Dominio.Entidades.EmprestimoPagamento", b =>
+                {
+                    b.HasOne("GCB.Dominio.Entidades.Emprestimo", null)
+                        .WithMany("Pagamentos")
+                        .HasForeignKey("EmprestimoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("GCB.Dominio.ObjetosValor.Real", "ValorPago", b1 =>
+                        {
+                            b1.Property<Guid>("EmprestimoPagamentoId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<decimal>("Valor")
+                                .HasPrecision(10, 2)
+                                .HasColumnType("decimal(10,2)")
+                                .HasColumnName("ValorPago");
+
+                            b1.HasKey("EmprestimoPagamentoId");
+
+                            b1.ToTable("EmprestimoPagamentos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EmprestimoPagamentoId");
+                        });
+
+                    b.Navigation("ValorPago");
                 });
 
             modelBuilder.Entity("GCB.Dominio.Entidades.Extrato", b =>
@@ -370,6 +500,11 @@ namespace GCB.Infraestrutura.Migrations
                         });
 
                     b.Navigation("Valor");
+                });
+
+            modelBuilder.Entity("GCB.Dominio.Entidades.Emprestimo", b =>
+                {
+                    b.Navigation("Pagamentos");
                 });
 
             modelBuilder.Entity("GCB.Dominio.Entidades.Extrato", b =>

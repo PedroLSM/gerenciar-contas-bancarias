@@ -1,4 +1,5 @@
 ﻿using GCB.Aplicacao.Comandos.Referencias.AdicionarReferencia;
+using GCB.Aplicacao.Comandos.Referencias.CalcularDiferencaSado;
 using GCB.Aplicacao.Consultas.Referencias.ObterReferenciasAgrupadaPorAno;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -18,6 +19,14 @@ namespace GCB.Api.Controllers
 
         [HttpPost("Adicionar")]
         public async Task<IActionResult> AdicionarReferencia([FromBody] AdicionarReferenciaCommand request)
+        {
+            var response = await Mediator.Send(request);
+
+            return response.ActionResult();
+        }
+
+        [HttpPost("CalcularDiferencaSaldo")]
+        public async Task<IActionResult> CalcularDiferencaSaldoReferencia([FromBody] CalcularDiferencaSaldoCommand request)
         {
             var response = await Mediator.Send(request);
 
