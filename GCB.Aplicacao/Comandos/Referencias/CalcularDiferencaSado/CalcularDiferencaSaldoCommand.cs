@@ -1,6 +1,4 @@
 ﻿using GCB.Comum.Comandos;
-using GCB.Comum.Extensoes;
-using GCB.Dominio.Enums;
 using MediatR;
 using System;
 
